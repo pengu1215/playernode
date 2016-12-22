@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>인터랙션 스케줄</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+      
+      <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js" type="text/javascript"></script>
+      <script type="text/javascript">
+          $(document).ready(function(){
+              
+            // add item button
+            $("#addBtn").click(function(){
+                // item 의 최대번호 구하기
+                var lastItemNo = $("#listTable tr:last").attr("class").replace("item", "");
+ 
+                var newitem = $("#listTable tr:eq(1)").clone();
+                newitem.removeClass();
+                newitem.find("td:eq(0)").attr("rowspan", "1");
+                newitem.addClass("item"+(parseInt(lastItemNo)+1));
+ 
+                $("#listTable").append(newitem);
+            });
+            
+            // delete item button
+            $(".delBtn").live("click", function(){
+                var clickedRow = $(this).parent().parent();
+                var cls = clickedRow.attr("class");
+                clickedRow.remove();
+            });
+              
+            // save button
+            $(".saveBtn").live("click", function(){
+            });
+              
+              
+            //
+            $(".checkBtn").live("click", function(){
+                alert($(this).parent().parent().attr("class"));
+            });
+          });
+      </script>      
+      
+  </head>
+  <body>
+    <h1>인터랙션 스케줄 목록</h1>
+    
+      <table class="simple_table" id="listTable">
+          
+        <tbody>
+            
+          <tr>
+            <td>Program</td>
+            <td>Start Time</td>
+            <td>End Time</td>
+            <td>Path</td>
+          </tr>
+            
+            <%
+                 for(var i=0; i<rows.length; i++) {
+                     var oneItem = rows[i];
+            %>
+            
+          <tr class="item<%i%>">
+            <th scope="row"><%=oneItem.name%></th>
+            <td><input type="text" style="width:10;" value=<%=oneItem.start%>></td>
+            <td><input type="text" style="width:30;" value=<%=oneItem.end%>></td>
+            <td><%=oneItem.path%></td>
+            <td>
+                <button class="delBtn">삭제</button>
+                <button class="checkBtn">확인</button>
+            </td>
+          </tr>
+            
+            <%
+                 }
+            %>
+            
+        </tbody>
+      </table>
+      
+      <br>
+      <br>
+      <button id="addBtn">추가</button>
+<!--
+      <span class="gRight">
+      <button class="saveBtn">저장</button>
+      </span>
+-->
+      
+  </body>
+</html>
